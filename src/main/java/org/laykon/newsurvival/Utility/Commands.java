@@ -3,8 +3,9 @@ package org.laykon.newsurvival.Utility;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 
-public interface Commands extends CommandExecutor {
+public interface Commands extends CommandExecutor, Listener {
 
     default boolean ensureOp(CommandSender sender) {
         if (!sender.isOp()) {

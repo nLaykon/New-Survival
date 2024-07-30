@@ -2,6 +2,7 @@ package org.laykon.newsurvival;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeAdventure;
@@ -9,6 +10,8 @@ import org.laykon.newsurvival.Commands.Gamemodes.GamemodeCreative;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSpectator;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSurvival;
 import org.laykon.newsurvival.Commands.Skills.Skills;
+import org.laykon.newsurvival.Commands.Time.*;
+import org.laykon.newsurvival.Commands.Utility.Fly;
 import org.laykon.newsurvival.Commands.Utility.Ping;
 import org.laykon.newsurvival.Commands.Utility.Repeat;
 import org.laykon.newsurvival.Commands.Utility.ServerExecute;
@@ -18,9 +21,16 @@ import org.laykon.newsurvival.Data.DataBase;
 public final class NewSurvival extends JavaPlugin {
     private DataBase database;
     private Config config;
+    private static NewSurvival instance;
+
+    public static NewSurvival getInstance() {
+        return instance;
+    }
 
     @Override
     public void onEnable() {
+        instance = this;
+
         config = new Config(this);
 
         String url = config.getDatabaseUrl();
@@ -45,6 +55,14 @@ public final class NewSurvival extends JavaPlugin {
         cmd("skills", new Skills());
         cmd("repeat", new Repeat());
         cmd("serverexec", new ServerExecute());
+        cmd("day", new Day());
+        cmd("night", new Night());
+        cmd("noon", new Noon());
+        cmd("sunrise", new Sunrise());
+        cmd("sunset", new Sunset());
+        cmd("fly", new Fly());
+
+        event(new Skills());
 
 
     }
@@ -54,6 +72,7 @@ public final class NewSurvival extends JavaPlugin {
         if (database != null && database.isConnected()) {
             database.close();
         }
+        HandlerList.unregisterAll();
     }
 
     public DataBase getDatabase() {

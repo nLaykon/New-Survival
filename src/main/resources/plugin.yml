@@ -12,3 +12,9 @@ commands:
   skills:
   repeat:
   serverexec:
+  day:
+  night:
+  noon:
+  sunrise:
+  sunset:
+  fly:
