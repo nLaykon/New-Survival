@@ -8,7 +8,7 @@ import org.laykon.newsurvival.Utility.Commands;
 public class Ping implements Commands {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!ensurePlayer(commandSender)){
+        if (!ensureOp(commandSender)){
             return false;
         }
         commandSender.sendMessage("Pong!");
