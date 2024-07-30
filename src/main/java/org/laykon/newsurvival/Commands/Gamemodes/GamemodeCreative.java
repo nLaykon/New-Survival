@@ -10,7 +10,7 @@ import org.laykon.newsurvival.Utility.Commands;
 public class GamemodeCreative implements Commands {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!ensurePlayer(commandSender) || ensureOp(commandSender)){
+        if (!(ensurePlayer(commandSender) || ensureOp(commandSender))){
             return false;
         }
         Player player = (Player) commandSender;

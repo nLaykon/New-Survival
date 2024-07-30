@@ -2,3 +2,24 @@ database:
   url: "jdbc:mysql://localhost:3306/yourdatabase"
   user: "yourusername"
   password: "yourpassword"
+
+
+#DATABASE LAYOUT
+#  CREATE TABLE databasename.PlayerSkills (
+#  UUID TEXT NOT NULL,
+#  SmithingExperience DECIMAL DEFAULT 0 NOT NULL,
+#  SwordExperience DECIMAL DEFAULT 0 NOT NULL,
+#  BowExperience DECIMAL DEFAULT 0 NOT NULL,
+#  DefenseExperience DECIMAL DEFAULT 0 NOT NULL,
+#  TamingExperience DECIMAL DEFAULT 0 NOT NULL,
+#  MiningExperience DECIMAL DEFAULT 0 NOT NULL,
+#  LumberExperience DECIMAL DEFAULT 0 NOT NULL,
+#  FishingExperience DECIMAL DEFAULT 0 NOT NULL,
+#  AlchemyExperience DECIMAL DEFAULT 0 NOT NULL,
+#  CookingExperience DECIMAL DEFAULT 0 NOT NULL,
+#  TradingExperience DECIMAL DEFAULT 0 NOT NULL,
+#  ExplorationExperience DECIMAL DEFAULT 0 NOT NULL,
+#  SurvivalExperience DECIMAL DEFAULT 0 NOT NULL,
+#  HuntingExperience DECIMAL DEFAULT 0 NOT NULL,
+#  StealthExperience DECIMAL DEFAULT 0 NOT NULL
+#  )
