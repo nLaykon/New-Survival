@@ -21,13 +21,7 @@ public class ServerExecute implements Commands {
 
         String commandToRun = String.join(" ", args);
 
-        if (sender instanceof ConsoleCommandSender) {
-            // Execute the command as the console
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandToRun);
-            sender.sendMessage("§aCommand executed as console: " + commandToRun);
-        } else {
-            sender.sendMessage("§cThis command can only be run from the console.");
-        }
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandToRun);
 
         return true;
     }
