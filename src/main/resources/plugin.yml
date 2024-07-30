@@ -2,3 +2,9 @@ name: NewSurvival
 version: '${project.version}'
 main: org.laykon.newsurvival.NewSurvival
 api-version: '1.21'
+
+commands:
+  gma:
+  gmc:
+  gmsp:
+  gms:
