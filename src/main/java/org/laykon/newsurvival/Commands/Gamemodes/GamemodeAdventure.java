@@ -1,23 +1,22 @@
-package org.laykon.newsurvival.Commands;
+package org.laykon.newsurvival.Commands.Gamemodes;
 
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.laykon.newsurvival.Utility.Commands;
 
-public class GamemodeCreative implements Commands {
+public class GamemodeAdventure implements Commands {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!ensurePlayer(commandSender) || ensureOp(commandSender)){
             return false;
         }
         Player player = (Player) commandSender;
-        if (player.getGameMode() != GameMode.CREATIVE){
-            player.setGameMode(GameMode.CREATIVE);
-            player.sendMessage("§aGamemode set to §6Creative");
+        if (player.getGameMode() != GameMode.ADVENTURE){
+            player.setGameMode(GameMode.ADVENTURE);
+            player.sendMessage("§aGamemode set to §6Adventure");
             return true;
         }else {
             player.sendMessage("§cCommand not found.");

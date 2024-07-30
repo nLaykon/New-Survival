@@ -1,4 +1,4 @@
-package org.laykon.newsurvival.Commands;
+package org.laykon.newsurvival.Commands.Gamemodes;
 
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;

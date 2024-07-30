@@ -4,10 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.laykon.newsurvival.Commands.GamemodeAdventure;
-import org.laykon.newsurvival.Commands.GamemodeCreative;
-import org.laykon.newsurvival.Commands.GamemodeSpectator;
-import org.laykon.newsurvival.Commands.GamemodeSurvival;
+import org.laykon.newsurvival.Commands.Gamemodes.GamemodeAdventure;
+import org.laykon.newsurvival.Commands.Gamemodes.GamemodeCreative;
+import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSpectator;
+import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSurvival;
+import org.laykon.newsurvival.Commands.Utility.Ping;
 import org.laykon.newsurvival.Data.Config;
 import org.laykon.newsurvival.Data.DataBase;
 
@@ -37,6 +38,7 @@ public final class NewSurvival extends JavaPlugin {
         cmd("gmc", new GamemodeCreative());
         cmd("gms", new GamemodeSurvival());
         cmd("gmsp", new GamemodeSpectator());
+        cmd("ping", new Ping());
 
 
     }
