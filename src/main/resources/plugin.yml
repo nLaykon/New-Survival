@@ -10,3 +10,5 @@ commands:
   gms:
   ping:
   skills:
+  repeat:
+  serverexec:
