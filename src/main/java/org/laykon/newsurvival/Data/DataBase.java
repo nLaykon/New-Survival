@@ -8,6 +8,10 @@ public class DataBase {
     private final String password;
     private Connection connection;
 
+    public Connection getConnection(){
+        return connection;
+    }
+
     public DataBase(String url, String user, String password) {
         this.url = url;
         this.user = user;

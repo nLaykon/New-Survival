@@ -18,3 +18,4 @@ commands:
   sunrise:
   sunset:
   fly:
+  stop:

@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Skills implements Commands, Listener, GuiUtils {
+public class Skills implements Commands {
     public static Inventory skillsMainMenu;
     public static Inventory combatSkills;
     public static Inventory utilitySkills;

@@ -10,11 +10,9 @@ import org.laykon.newsurvival.Commands.Gamemodes.GamemodeCreative;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSpectator;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSurvival;
 import org.laykon.newsurvival.Commands.Skills.Skills;
+import org.laykon.newsurvival.Commands.Skills.SkillsDatabaseEventHandling;
 import org.laykon.newsurvival.Commands.Time.*;
-import org.laykon.newsurvival.Commands.Utility.Fly;
-import org.laykon.newsurvival.Commands.Utility.Ping;
-import org.laykon.newsurvival.Commands.Utility.Repeat;
-import org.laykon.newsurvival.Commands.Utility.ServerExecute;
+import org.laykon.newsurvival.Commands.Utility.*;
 import org.laykon.newsurvival.Data.Config;
 import org.laykon.newsurvival.Data.DataBase;
 
@@ -61,8 +59,10 @@ public final class NewSurvival extends JavaPlugin {
         cmd("sunrise", new Sunrise());
         cmd("sunset", new Sunset());
         cmd("fly", new Fly());
+        cmd("stop", new Stop());
 
         event(new Skills());
+        event(new SkillsDatabaseEventHandling());
 
 
     }
