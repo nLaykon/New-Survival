@@ -18,7 +18,7 @@ import java.util.*;
 
 public class SkillsDatabaseEventHandling implements Listener {
     DataBase dataBase = NewSurvival.getInstance().getDatabase();
-    Map<UUID, Map<SkillType, BigDecimal>> experienceMap = new HashMap<>();
+    public Map<UUID, Map<SkillType, BigDecimal>> experienceMap = SkillsManager.getInstance().getExperienceMap();
     Connection connection = dataBase.getConnection();
 
     @EventHandler
@@ -33,40 +33,38 @@ public class SkillsDatabaseEventHandling implements Listener {
         String selectQuery = "SELECT * FROM PlayerSkills WHERE UUID = ?";
         String insertQuery = "INSERT INTO PlayerSkills (UUID) VALUES (?)";
 
+        Map<SkillType, BigDecimal> newExpMap = new HashMap<>();
+
 
         try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
             selectStatement.setString(1, uuidString);
             try (ResultSet resultSet = selectStatement.executeQuery()) {
                 if (resultSet.next()) {
                     int columnCount = resultSet.getMetaData().getColumnCount();
-                    Map<SkillType, BigDecimal> expMap = new HashMap<>();
                     for (int i = 2; i <= columnCount; i++) { // Skip the UUID column
                         String columnName = resultSet.getMetaData().getColumnName(i);
                         BigDecimal value = resultSet.getBigDecimal(i);
                         SkillType skillType = SkillType.getSkillFromString(columnName);
                         if (skillType != null) {
-                            expMap.put(skillType, value);
+                            newExpMap.put(skillType, value);
                         }
                     }
-                    experienceMap.put(UUID.fromString(uuidString), expMap);
+                    experienceMap.put(UUID.fromString(uuidString), newExpMap);
+                    SkillsManager.getInstance().setExperienceMap(experienceMap);
                 } else {
                     try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                         insertStatement.setString(1, uuidString);
                         insertStatement.executeUpdate();
 
-                        Map<SkillType, BigDecimal> newExpMap = new HashMap<>();
                         for (SkillType skillType : SkillType.values()) {
                             newExpMap.put(skillType, BigDecimal.ZERO);
                         }
                         experienceMap.put(UUID.fromString(uuidString), newExpMap);
+                        SkillsManager.getInstance().setExperienceMap(experienceMap);
                     }
                 }
             }
         }
-        player.sendMessage(experienceMap.toString());
-
-
-        System.out.println(experienceMap);
     }
 
     @EventHandler
@@ -79,7 +77,7 @@ public class SkillsDatabaseEventHandling implements Listener {
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
         Map<SkillType, BigDecimal> skillMap = experienceMap.get(playerUUID);
-        if (skillMap == null) return; // No skill data to save
+        if (skillMap == null) return;
 
         String insertQuery = "INSERT INTO PlayerSkills (UUID, SmithingExperience, SwordExperience, BowExperience, DefenseExperience, TamingExperience, MiningExperience, LumberExperience, FishingExperience, AlchemyExperience, CookingExperience, TradingExperience, ExplorationExperience, SurvivalExperience, HuntingExperience, StealthExperience, EnchantingExperience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE SmithingExperience=?, SwordExperience=?, BowExperience=?, DefenseExperience=?, TamingExperience=?, MiningExperience=?, LumberExperience=?, FishingExperience=?, AlchemyExperience=?, CookingExperience=?, TradingExperience=?, ExplorationExperience=?, SurvivalExperience=?, HuntingExperience=?, StealthExperience=?, EnchantingExperience=?";
 

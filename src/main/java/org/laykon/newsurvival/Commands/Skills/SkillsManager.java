@@ -1,6 +1,5 @@
 package org.laykon.newsurvival.Commands.Skills;
 
-import org.bukkit.entity.Player;
 import org.laykon.newsurvival.Data.DataBase;
 import org.laykon.newsurvival.NewSurvival;
 
@@ -10,24 +9,25 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class SkillsManager {
-    private final Player player;
+    private static final SkillsManager INSTANCE = new SkillsManager();
     private final DataBase dataBase;
-    private final Map<UUID, Map<SkillType, BigDecimal>> experienceMap;
+    private Map<UUID, Map<SkillType, BigDecimal>> experienceMap;
 
-    private SkillsManager(Player player) {
-        this.player = player;
+    private SkillsManager() {
         this.dataBase = NewSurvival.getInstance().getDatabase();
         this.experienceMap = new HashMap<>();
     }
-    public static SkillsManager get(Player player) {
-        return new SkillsManager(player);
+
+    public static SkillsManager getInstance() {
+        return INSTANCE;
     }
 
-    public Player player() {
-        return this.player;
+    public Map<UUID, Map<SkillType, BigDecimal>> getExperienceMap() {
+        return this.experienceMap;
     }
 
-    public void init() {
-
+    public void setExperienceMap(Map<UUID, Map<SkillType, BigDecimal>> experienceMap) {
+        this.experienceMap = experienceMap;
     }
 }
+

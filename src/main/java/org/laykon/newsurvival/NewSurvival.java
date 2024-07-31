@@ -11,6 +11,7 @@ import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSpectator;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSurvival;
 import org.laykon.newsurvival.Commands.Skills.SkillsGui;
 import org.laykon.newsurvival.Commands.Skills.SkillsDatabaseEventHandling;
+import org.laykon.newsurvival.Commands.Skills.SkillsManager;
 import org.laykon.newsurvival.Commands.Time.*;
 import org.laykon.newsurvival.Commands.Utility.*;
 import org.laykon.newsurvival.Data.Config;
@@ -25,6 +26,7 @@ public final class NewSurvival extends JavaPlugin {
         return instance;
     }
 
+
     @Override
     public void onEnable() {
         instance = this;
@@ -37,7 +39,6 @@ public final class NewSurvival extends JavaPlugin {
 
         database = new DataBase(url, user, password);
 
-        // Example usage
         if (database.isConnected()) {
             getLogger().info("Successfully connected to the database!");
         } else {

@@ -21,26 +21,11 @@ public class SkillsGui implements Commands {
 
     public static List<String> skillsMainMenuItems = Arrays.asList(
             "x", "y", "x", "y", "x", "y", "x", "y", "x",
-            "y", "a", "y", "x", "b", "x", "y", "c", "y",
+            "y", "a", "b", "c", "d", "e", "f", "g", "y",
+            "x", "h", "i", "j", "o", "l", "m", "n", "x",
+            "y", "x", "k", "x", "y", "x", "p", "x", "y",
             "x", "y", "x", "y", "x", "y", "x", "y", "x"
     );
-    public static List<String> combatSkillsItems = Arrays.asList(
-            "x", "y", "x", "y", "x", "y", "x", "y", "x",
-            "y", "x", "y", "x", "y", "x", "y", "x", "y",
-            "x", "y", "x", "y", "x", "y", "x", "y", "x"
-    );
-    public static List<String> utilitySkillsItems = Arrays.asList(
-            "x", "y", "x", "y", "x", "y", "x", "y", "x",
-            "y", "x", "y", "x", "y", "x", "y", "x", "y",
-            "x", "y", "x", "y", "x", "y", "x", "y", "x"
-    );
-    public static List<String> specializedSkillsItems = Arrays.asList(
-            "x", "y", "x", "y", "x", "y", "x", "y", "x",
-            "y", "x", "y", "x", "y", "x", "y", "x", "y",
-            "x", "y", "x", "y", "x", "y", "x", "y", "x"
-    );
-
-
 
 
     @Override
@@ -50,12 +35,9 @@ public class SkillsGui implements Commands {
         }
         Player player = (Player) commandSender;
 
-        skillsMainMenu = Bukkit.createInventory(null, 27, "§aSkills");
-        combatSkills = Bukkit.createInventory(null, 27, "§aCombat Skills");
-        utilitySkills = Bukkit.createInventory(null, 27, "§aUtility Skills");
-        specializedSkills = Bukkit.createInventory(null, 27, "§aSpecialized Skills");
+        skillsMainMenu = Bukkit.createInventory(null, 45, "§5Skills");
 
-        buildSkillsGui(skillsMainMenu, skillsMainMenuItems);
+        buildSkillsGui(skillsMainMenu, skillsMainMenuItems, player.getUniqueId());
 
         player.openInventory(skillsMainMenu);
 
