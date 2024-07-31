@@ -10,9 +10,8 @@ public class Fly implements Commands {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(ensureOp(sender) || ensurePlayer(sender))){
-            return false;
-        }
+        if (!checkOp(sender) || !checkPlayer(sender)) return false;
+
         Player player = (Player) sender;
         if (player.getAllowFlight()){
             player.setAllowFlight(false);

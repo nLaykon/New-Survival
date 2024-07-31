@@ -29,5 +29,35 @@ public final class SkillsManager {
     public void setExperienceMap(Map<UUID, Map<SkillType, BigDecimal>> experienceMap) {
         this.experienceMap = experienceMap;
     }
+
+    public void incExperience (UUID uuid, SkillType skillType, BigDecimal amount){
+        if (!(this.experienceMap.containsKey(uuid))){
+            return;
+        }
+        Map<SkillType, BigDecimal> expMap = this.experienceMap.get(uuid);
+        expMap.put(skillType, expMap.get(skillType).add(amount));
+    }
+
+    public void decExperience (UUID uuid, SkillType skillType, BigDecimal amount){
+        if (!(this.experienceMap.containsKey(uuid))){
+            return;
+        }
+        Map<SkillType, BigDecimal> expMap = this.experienceMap.get(uuid);
+        if (expMap.get(skillType).compareTo(amount) < 0){
+            return;
+        }
+        expMap.put(skillType, expMap.get(skillType).subtract(amount));
+    }
+
+    public void setExperience (UUID uuid, SkillType skillType, BigDecimal amount){
+        if (!(this.experienceMap.containsKey(uuid))){
+            return;
+        }
+        Map<SkillType, BigDecimal> expMap = this.experienceMap.get(uuid);
+        expMap.put(skillType, amount);
+
+    }
+
+
 }
 

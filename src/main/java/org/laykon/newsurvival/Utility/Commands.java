@@ -7,19 +7,20 @@ import org.bukkit.event.Listener;
 
 public interface Commands extends CommandExecutor, Listener, GuiUtils {
 
-    default boolean ensureOp(CommandSender sender) {
-        if (!sender.isOp()) {
-            sender.sendMessage("§cCommand not found.");
-            return false;
+    default boolean checkOp(CommandSender sender) {
+        if (sender.isOp()) {
+            return true;
         }
-        return true;
+        sender.sendMessage("§cCommand not found.");
+        return false;
+
     }
 
-    default boolean ensurePlayer(CommandSender sender) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("§cThis command can only be run by a player.");
-            return false;
+    default boolean checkPlayer(CommandSender sender) {
+        if (sender instanceof Player) {
+            return true;
         }
-        return true;
+        sender.sendMessage("§cThis command can only be run by a player.");
+        return false;
     }
 }

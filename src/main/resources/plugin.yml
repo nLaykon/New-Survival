@@ -19,3 +19,4 @@ commands:
   sunset:
   fly:
   stop:
+  dev/skills/test-map:

@@ -7,9 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.laykon.newsurvival.Commands.Skills.SkillType;
-import org.laykon.newsurvival.Commands.Skills.SkillsDatabaseEventHandling;
 import org.laykon.newsurvival.Commands.Skills.SkillsManager;
-import org.laykon.newsurvival.NewSurvival;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,12 +25,9 @@ public interface GuiUtils {
 
     default ItemStack skillItem(SkillType skillType, UUID uuid){
         Map<UUID, Map<SkillType, BigDecimal>> experienceMap = SkillsManager.getInstance().getExperienceMap();
-        System.out.println(experienceMap);
-
         if (experienceMap == null) {
             System.out.println("a");
         }
-
         if (experienceMap.get(uuid) == null){
             System.out.println("b");
         }
@@ -40,7 +35,11 @@ public interface GuiUtils {
         ItemStack itemStack = new ItemStack(skillType.getItemType());
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.displayName(Component.text(skillType.getItemColor() + skillType.getSkillName()));
-        itemMeta.lore(List.of(Component.text(experienceMap.get(uuid).get(skillType).toString())));
+        itemMeta.lore(List.of(
+                Component.text("§b" + experienceMap.get(uuid).get(skillType).toString()),
+                Component.text( "§r" +StringUtils.generateProgressBar(Integer.parseInt(experienceMap.get(uuid).get(skillType).toString()), 250)))
+        );
+
 
         itemStack.setItemMeta(itemMeta);
 

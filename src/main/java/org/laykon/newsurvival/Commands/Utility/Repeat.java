@@ -12,9 +12,7 @@ import java.util.Arrays;
 public class Repeat implements Commands {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!ensureOp(sender)){
-            return false;
-        }
+        if (!checkOp(sender)) return false;
 
         if (args.length < 2) {
             sender.sendMessage("§cUsage: /repeat <times> <command>");

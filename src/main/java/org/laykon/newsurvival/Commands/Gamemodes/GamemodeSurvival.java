@@ -11,9 +11,8 @@ public class GamemodeSurvival implements Commands {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!(ensurePlayer(commandSender) || ensureOp(commandSender))){
-            return false;
-        }
+        if (!(checkOp(commandSender) || !checkPlayer(commandSender))) return false;
+
         Player player = (Player) commandSender;
         if (player.getGameMode() != GameMode.SURVIVAL){
             player.setGameMode(GameMode.SURVIVAL);

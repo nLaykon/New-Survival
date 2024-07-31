@@ -23,7 +23,7 @@ public class SkillsDatabaseEventHandling implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) throws SQLException {
-        if (!dataBase.isConnected()){
+        if (!dataBase.isConnected()) {
             System.out.println("Database Disconnected!!!!!!!");
             return;
         }
@@ -69,8 +69,7 @@ public class SkillsDatabaseEventHandling implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) throws SQLException {
-
-        if (!dataBase.isConnected()){
+        if (!dataBase.isConnected()) {
             return;
         }
 
@@ -79,18 +78,20 @@ public class SkillsDatabaseEventHandling implements Listener {
         Map<SkillType, BigDecimal> skillMap = experienceMap.get(playerUUID);
         if (skillMap == null) return;
 
-        String insertQuery = "INSERT INTO PlayerSkills (UUID, SmithingExperience, SwordExperience, BowExperience, DefenseExperience, TamingExperience, MiningExperience, LumberExperience, FishingExperience, AlchemyExperience, CookingExperience, TradingExperience, ExplorationExperience, SurvivalExperience, HuntingExperience, StealthExperience, EnchantingExperience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE SmithingExperience=?, SwordExperience=?, BowExperience=?, DefenseExperience=?, TamingExperience=?, MiningExperience=?, LumberExperience=?, FishingExperience=?, AlchemyExperience=?, CookingExperience=?, TradingExperience=?, ExplorationExperience=?, SurvivalExperience=?, HuntingExperience=?, StealthExperience=?, EnchantingExperience=?";
+        String insertQuery = "INSERT INTO PlayerSkills (UUID, SmithingExperience, SwordExperience, BowExperience, DefenseExperience, TamingExperience, MiningExperience, LumberExperience, FishingExperience, AlchemyExperience, CookingExperience, TradingExperience, ExplorationExperience, SurvivalExperience, HuntingExperience, StealthExperience, EnchantingExperience) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE SmithingExperience=VALUES(SmithingExperience), SwordExperience=VALUES(SwordExperience), BowExperience=VALUES(BowExperience), DefenseExperience=VALUES(DefenseExperience), TamingExperience=VALUES(TamingExperience), MiningExperience=VALUES(MiningExperience), LumberExperience=VALUES(LumberExperience), FishingExperience=VALUES(FishingExperience), AlchemyExperience=VALUES(AlchemyExperience), CookingExperience=VALUES(CookingExperience), TradingExperience=VALUES(TradingExperience), ExplorationExperience=VALUES(ExplorationExperience), SurvivalExperience=VALUES(SurvivalExperience), HuntingExperience=VALUES(HuntingExperience), StealthExperience=VALUES(StealthExperience), EnchantingExperience=VALUES(EnchantingExperience)";
 
-        PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
-        insertStatement.setString(1, playerUUID.toString());
-        int i = 2;
-        for (SkillType skillType : SkillType.values()) {
-            BigDecimal value = skillMap.getOrDefault(skillType, BigDecimal.ZERO);
-            insertStatement.setBigDecimal(i, value);
-            insertStatement.setBigDecimal(i + SkillType.values().length, value); // For update values
-            i++;
+        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+            insertStatement.setString(1, playerUUID.toString());
+            int i = 2;
+            for (SkillType skillType : SkillType.values()) {
+                BigDecimal value = skillMap.getOrDefault(skillType, BigDecimal.ZERO);
+                insertStatement.setBigDecimal(i, value);
+                i++;
+            }
+            insertStatement.executeUpdate();
+            System.out.println("Player skill data saved for " + playerUUID);
         }
-        insertStatement.executeUpdate();
-        System.out.println("Player skill data saved for " + playerUUID);
     }
 }

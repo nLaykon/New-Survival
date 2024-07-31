@@ -8,9 +8,7 @@ import org.laykon.newsurvival.Utility.Commands;
 public class Day implements Commands {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(!ensureOp(sender)){
-            return false;
-        }
+        if (!(checkOp(sender))) return false;
         sender.getServer().getWorlds().get(0).setTime(0);
         return true;
     }

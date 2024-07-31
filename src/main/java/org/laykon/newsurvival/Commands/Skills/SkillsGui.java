@@ -1,7 +1,6 @@
 package org.laykon.newsurvival.Commands.Skills;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,16 +29,25 @@ public class SkillsGui implements Commands {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!ensurePlayer(commandSender)) {
-            return false;
-        }
+        if (!checkPlayer(commandSender)) return false;
+        Player sender = (Player) commandSender;
         Player player = (Player) commandSender;
+
+        if (strings.length >= 1 && checkOp(sender)){
+            Player player1 = Bukkit.getPlayer(strings[0]);
+            if (player1 != null){
+                player = player1;
+            }
+        }
+
+
+
 
         skillsMainMenu = Bukkit.createInventory(null, 45, "§5Skills");
 
         buildSkillsGui(skillsMainMenu, skillsMainMenuItems, player.getUniqueId());
 
-        player.openInventory(skillsMainMenu);
+        sender.openInventory(skillsMainMenu);
 
         return true;
     }

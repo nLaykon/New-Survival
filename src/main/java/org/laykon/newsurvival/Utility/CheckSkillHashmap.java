@@ -1,16 +1,15 @@
-package org.laykon.newsurvival.Commands.Time;
+package org.laykon.newsurvival.Utility;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import org.laykon.newsurvival.Utility.Commands;
+import org.laykon.newsurvival.Commands.Skills.SkillsManager;
 
-public class Night implements Commands {
+public class CheckSkillHashmap implements Commands{
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(checkOp(sender))) return false;
-
-        sender.getServer().getWorlds().get(0).setTime(18000);
+        sender.sendMessage(SkillsManager.getInstance().getExperienceMap().toString());
         return true;
     }
 }

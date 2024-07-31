@@ -1,9 +1,12 @@
 package org.laykon.newsurvival;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeAdventure;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeCreative;
@@ -11,11 +14,11 @@ import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSpectator;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSurvival;
 import org.laykon.newsurvival.Commands.Skills.SkillsGui;
 import org.laykon.newsurvival.Commands.Skills.SkillsDatabaseEventHandling;
-import org.laykon.newsurvival.Commands.Skills.SkillsManager;
 import org.laykon.newsurvival.Commands.Time.*;
 import org.laykon.newsurvival.Commands.Utility.*;
 import org.laykon.newsurvival.Data.Config;
 import org.laykon.newsurvival.Data.DataBase;
+import org.laykon.newsurvival.Utility.CheckSkillHashmap;
 
 public final class NewSurvival extends JavaPlugin {
     private DataBase database;
@@ -61,9 +64,14 @@ public final class NewSurvival extends JavaPlugin {
         cmd("sunset", new Sunset());
         cmd("fly", new Fly());
         cmd("stop", new Stop());
+        cmd("dev/skills/test-map", new CheckSkillHashmap());
 
         event(new SkillsGui());
         event(new SkillsDatabaseEventHandling());
+
+        for (Player player : Bukkit.getOnlinePlayers()){
+            Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinEvent(player, Component.text("Reloaded!")));
+        }
 
 
     }
