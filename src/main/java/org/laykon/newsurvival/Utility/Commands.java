@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-public interface Commands extends CommandExecutor, Listener, GuiUtils {
+public interface Commands extends CommandExecutor, Listener {
 
     default boolean checkOp(CommandSender sender) {
         if (sender.isOp()) {

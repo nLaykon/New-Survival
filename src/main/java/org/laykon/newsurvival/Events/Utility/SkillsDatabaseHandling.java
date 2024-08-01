@@ -1,10 +1,11 @@
-package org.laykon.newsurvival.Commands.Skills;
+package org.laykon.newsurvival.Events.Utility;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.laykon.newsurvival.Utility.Skills.SkillType;
 import org.laykon.newsurvival.Data.DataBase;
 import org.laykon.newsurvival.NewSurvival;
 
@@ -16,7 +17,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 
-public class SkillsDatabaseEventHandling implements Listener {
+public class SkillsDatabaseHandling implements Listener {
     DataBase dataBase = NewSurvival.getInstance().getDatabase();
     public Map<UUID, Map<SkillType, BigDecimal>> experienceMap = SkillsManager.getInstance().getExperienceMap();
     Connection connection = dataBase.getConnection();
@@ -30,8 +31,8 @@ public class SkillsDatabaseEventHandling implements Listener {
 
         Player player = event.getPlayer();
         String uuidString = player.getUniqueId().toString();
-        String selectQuery = "SELECT * FROM PlayerSkills WHERE UUID = ?";
-        String insertQuery = "INSERT INTO PlayerSkills (UUID) VALUES (?)";
+        String selectQuery = "SELECT * FROM playerskills WHERE UUID = ?";
+        String insertQuery = "INSERT INTO playerskills (UUID) VALUES (?)";
 
         Map<SkillType, BigDecimal> newExpMap = new HashMap<>();
 
@@ -78,7 +79,7 @@ public class SkillsDatabaseEventHandling implements Listener {
         Map<SkillType, BigDecimal> skillMap = experienceMap.get(playerUUID);
         if (skillMap == null) return;
 
-        String insertQuery = "INSERT INTO PlayerSkills (UUID, SmithingExperience, SwordExperience, BowExperience, DefenseExperience, TamingExperience, MiningExperience, LumberExperience, FishingExperience, AlchemyExperience, CookingExperience, TradingExperience, ExplorationExperience, SurvivalExperience, HuntingExperience, StealthExperience, EnchantingExperience) " +
+        String insertQuery = "INSERT INTO playerskills (UUID, SmithingExperience, SwordExperience, BowExperience, DefenseExperience, TamingExperience, MiningExperience, LumberExperience, FishingExperience, AlchemyExperience, CookingExperience, TradingExperience, ExplorationExperience, SurvivalExperience, HuntingExperience, StealthExperience, EnchantingExperience) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                 "ON DUPLICATE KEY UPDATE SmithingExperience=VALUES(SmithingExperience), SwordExperience=VALUES(SwordExperience), BowExperience=VALUES(BowExperience), DefenseExperience=VALUES(DefenseExperience), TamingExperience=VALUES(TamingExperience), MiningExperience=VALUES(MiningExperience), LumberExperience=VALUES(LumberExperience), FishingExperience=VALUES(FishingExperience), AlchemyExperience=VALUES(AlchemyExperience), CookingExperience=VALUES(CookingExperience), TradingExperience=VALUES(TradingExperience), ExplorationExperience=VALUES(ExplorationExperience), SurvivalExperience=VALUES(SurvivalExperience), HuntingExperience=VALUES(HuntingExperience), StealthExperience=VALUES(StealthExperience), EnchantingExperience=VALUES(EnchantingExperience)";
 
@@ -94,4 +95,32 @@ public class SkillsDatabaseEventHandling implements Listener {
             System.out.println("Player skill data saved for " + playerUUID);
         }
     }
+
+
+    public Map<SkillType, BigDecimal> getPlayerSkills(UUID uuid) throws SQLException {
+        Map<SkillType, BigDecimal> newExpMap = new HashMap<>();
+        String selectQuery = "SELECT * FROM playerskills WHERE UUID = ?";
+
+        try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+            selectStatement.setString(1, uuid.toString());
+
+            try (ResultSet resultSet = selectStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int columnCount = resultSet.getMetaData().getColumnCount();
+                    for (int i = 2; i <= columnCount; i++) {
+                        String columnName = resultSet.getMetaData().getColumnName(i);
+                        BigDecimal value = resultSet.getBigDecimal(i);
+                        SkillType skillType = SkillType.getSkillFromString(columnName);
+
+                        if (skillType != null) {
+                            newExpMap.put(skillType, value);
+                        }
+                    }
+                }
+            }
+        }
+
+        return newExpMap;
+    }
+
 }

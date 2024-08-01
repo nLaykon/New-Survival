@@ -1,5 +1,7 @@
 package org.laykon.newsurvival.Data;
 
+import org.laykon.newsurvival.Utility.Console;
+
 import java.sql.*;
 
 public class DataBase {
@@ -22,7 +24,7 @@ public class DataBase {
     private void connect() {
         try {
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Database connected successfully.");
+            Console.success("Database connected successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -32,7 +34,7 @@ public class DataBase {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Database connection closed.");
+                Console.success("Database connection closed.");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

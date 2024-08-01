@@ -3,7 +3,7 @@ package org.laykon.newsurvival.Utility;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import org.laykon.newsurvival.Commands.Skills.SkillsManager;
+import org.laykon.newsurvival.Events.Utility.SkillsManager;
 
 public class CheckSkillHashmap implements Commands{
     @Override

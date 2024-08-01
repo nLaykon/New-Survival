@@ -1,9 +1,11 @@
-package org.laykon.newsurvival.Commands.Skills;
+package org.laykon.newsurvival.Events.Utility;
 
+import org.laykon.newsurvival.Utility.Skills.SkillType;
 import org.laykon.newsurvival.Data.DataBase;
 import org.laykon.newsurvival.NewSurvival;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -57,6 +59,23 @@ public final class SkillsManager {
         expMap.put(skillType, amount);
 
     }
+
+    public int getLevel(BigDecimal experience) {
+        BigDecimal baseXP = new BigDecimal(100);
+        int level = 1;
+        while (experience.compareTo(baseXP.multiply(new BigDecimal(level))) >= 0) {
+            level++;
+        }
+        return level;
+    }
+
+    public BigDecimal getNextLevel(BigDecimal experience) {
+        int currentLevel = getLevel(experience);
+        BigDecimal baseXP = new BigDecimal(100);
+        BigDecimal nextLevelXP = baseXP.multiply(new BigDecimal(currentLevel).multiply(new BigDecimal(Math.PI/2.5)));
+        return nextLevelXP.setScale(2, RoundingMode.HALF_UP);
+    }
+
 
 
 }

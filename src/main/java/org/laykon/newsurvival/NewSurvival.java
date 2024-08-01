@@ -13,12 +13,14 @@ import org.laykon.newsurvival.Commands.Gamemodes.GamemodeCreative;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSpectator;
 import org.laykon.newsurvival.Commands.Gamemodes.GamemodeSurvival;
 import org.laykon.newsurvival.Commands.Skills.SkillsGui;
-import org.laykon.newsurvival.Commands.Skills.SkillsDatabaseEventHandling;
+import org.laykon.newsurvival.Events.Utility.PlayerManager;
+import org.laykon.newsurvival.Events.Utility.SkillsDatabaseHandling;
 import org.laykon.newsurvival.Commands.Time.*;
 import org.laykon.newsurvival.Commands.Utility.*;
 import org.laykon.newsurvival.Data.Config;
 import org.laykon.newsurvival.Data.DataBase;
 import org.laykon.newsurvival.Utility.CheckSkillHashmap;
+import org.laykon.newsurvival.Utility.Console;
 
 public final class NewSurvival extends JavaPlugin {
     private DataBase database;
@@ -35,19 +37,13 @@ public final class NewSurvival extends JavaPlugin {
         instance = this;
 
         config = new Config(this);
+        Console.success("Gotten Config");
 
         String url = config.getDatabaseUrl();
         String user = config.getDatabaseUser();
         String password = config.getDatabasePassword();
 
         database = new DataBase(url, user, password);
-
-        if (database.isConnected()) {
-            getLogger().info("Successfully connected to the database!");
-        } else {
-            getLogger().warning("Failed to connect to the database.");
-        }
-
 
         cmd("gma", new GamemodeAdventure());
         cmd("gmc", new GamemodeCreative());
@@ -66,22 +62,31 @@ public final class NewSurvival extends JavaPlugin {
         cmd("stop", new Stop());
         cmd("dev/skills/test-map", new CheckSkillHashmap());
 
+        Console.success("Registered all commands!");
+
         event(new SkillsGui());
-        event(new SkillsDatabaseEventHandling());
+        event(new SkillsDatabaseHandling());
+        event(new PlayerManager());
+
+        Console.success("Registered all events!");
 
         for (Player player : Bukkit.getOnlinePlayers()){
             Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinEvent(player, Component.text("Reloaded!")));
         }
+        Console.success("Initialized skill data!");
 
-
+        Console.success("New Survival loaded!");
     }
 
     @Override
     public void onDisable() {
+        Console.warn("Shutting down!");
         if (database != null && database.isConnected()) {
             database.close();
         }
+
         HandlerList.unregisterAll();
+        Console.success("Handlers unregistered!");
     }
 
     public DataBase getDatabase() {
@@ -90,11 +95,6 @@ public final class NewSurvival extends JavaPlugin {
 
     public void cmd(String name, CommandExecutor command) {
         getCommand(name).setExecutor(command);
-    }
-
-    public static void executeCmd(String command) {
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
-        System.out.println("Command Executed: " + command);
     }
 
     public void event(Listener listener) {

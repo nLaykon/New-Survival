@@ -1,4 +1,4 @@
-package org.laykon.newsurvival.Commands.Skills;
+package org.laykon.newsurvival.Utility.Skills;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,7 +44,7 @@ public enum SkillType {
         return itemType;
     }
 
-    static SkillType getSkillFromString(String string) {
+    public static SkillType getSkillFromString(String string) {
         if (string == null || !string.endsWith("Experience")) {
             throw new IllegalArgumentException("Invalid skill string: " + string);
         }
